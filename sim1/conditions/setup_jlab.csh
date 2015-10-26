@@ -1,31 +1,15 @@
-# preliminaries
+#!/bin/tcsh
+set VERSION_XML=/group/halld/www/halldweb/html/dist/version_1.9.xml
 setenv BUILD_SCRIPTS /group/halld/Software/build_scripts
 setenv BMS_OSNAME `$BUILD_SCRIPTS/osrelease.pl`
-# gluex software versions
-setenv CCDB_HOME /group/halld/Software/builds/$BMS_OSNAME/ccdb/prod
-setenv HALLD_HOME /work/halld/home/sdobbs/Software/sim-recon/prod
-setenv HDDS_HOME /work/halld/home/sdobbs/Software/hdds/prod
-setenv JANA_HOME /group/halld/Software/builds/$BMS_OSNAME/jana/jana_0.7.3/$BMS_OSNAME
-setenv ROOTSYS /group/halld/Software/builds/$BMS_OSNAME/root/root_5.34.26
-#
-setenv CERN_CUE `$BUILD_SCRIPTS/cue_cernlib.pl`
-setenv CERN `$BUILD_SCRIPTS/cue_cernlib.pl`
-setenv CERN_LEVEL 2005
-setenv EVIOROOT /group/halld/Software/builds/Linux_CentOS6-x86_64-gcc4.4.7/evio/evio-4.3.1/Linux-x86_64
-setenv XERCESCROOT /group/halld/Software/ExternalPackages/xerces-c-3.1.1.$BMS_OSNAME
-source $BUILD_SCRIPTS/gluex_env.csh
-#
-setenv LD_LIBRARY_PATH $EVIOROOT/lib:$LD_LIBRARY_PATH
-if ( ! $?JANA_PLUGIN_PATH ) then
-	setenv JANA_PLUGIN_PATH 
-endif
-setenv JANA_PLUGIN_PATH /group/halld/Software/builds/online/monitoring/${BMS_OSNAME}/plugins/:${HALLD_HOME}/${JANA_PLUGIN_PATH}/${BMS_OSNAME}/plugins:${JANA_HOME}/plugins/
-setenv PYTHONPATH $HALLD_HOME/$BMS_OSNAME/lib/python:$PYTHONPATH
-#
+setenv GLUEX_TOP /group/halld/Software/builds/$BMS_OSNAME
+# finish the rest of the gluex environment
+source $BUILD_SCRIPTS/gluex_env_version.csh $VERSION_XML
+setenv JANA_CALIB_URL $CCDB_CONNECTION
 setenv JANA_RESOURCE_DIR /group/halld/www/halldweb/html/resources
-# MySQL CCDB connection
-#setenv CCDB_CONNECTION mysql://ccdb_user@hallddb.jlab.org/ccdb
-#setenv JANA_CALIB_URL mysql://ccdb_user@hallddb.jlab.org/ccdb
+# python on the cue
+setenv PATH /apps/python/PRO/bin:$PATH
+setenv LD_LIBRARY_PATH /apps/python/PRO/lib:$LD_LIBRARY_PATH
 # Default "latest" CCDB SQLite
 setenv CCDB_CONNECTION sqlite:////group/halld/www/halldweb/html/dist/ccdb.sqlite 
 setenv JANA_CALIB_URL sqlite:////group/halld/www/halldweb/html/dist/ccdb.sqlite
