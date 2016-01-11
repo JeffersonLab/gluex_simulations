@@ -1,5 +1,8 @@
 #!/bin/tcsh
-set VERSION_XML=/group/halld/www/halldweb/html/dist/version_1.10.xml
+# version specification
+#set VERSION_XML=/group/halld/www/halldweb/html/dist/version_1.10.xml
+set VERSION_XML=/home/gxproj4/version_newbcal.xml
+#
 setenv BUILD_SCRIPTS /group/halld/Software/build_scripts
 setenv BMS_OSNAME `$BUILD_SCRIPTS/osrelease.pl`
 setenv GLUEX_TOP /group/halld/Software/builds/$BMS_OSNAME
@@ -10,8 +13,8 @@ setenv JANA_RESOURCE_DIR /group/halld/www/halldweb/html/resources
 # python on the cue
 setenv PATH /apps/python/PRO/bin:$PATH
 setenv LD_LIBRARY_PATH /apps/python/PRO/lib:$LD_LIBRARY_PATH
-# Default "latest" CCDB SQLite
-setenv CCDB_CONNECTION sqlite:////group/halld/www/halldweb/html/dist/ccdb.sqlite 
+# Use January 7, 2016 version of CCDB SQLite
+setenv CCDB_CONNECTION sqlite:////group/halld/Software/calib/ccdb_sqlite/ccdb_2016-01-07.sqlite
 setenv JANA_CALIB_URL sqlite:////group/halld/www/halldweb/html/dist/ccdb.sqlite
 if ( ! $?JANA_CALIB_CONTEXT ) then
     echo "WARNING: JANA_CALIB_CONTEXT not set!  Setting default variation to mc_sim1 ..."
