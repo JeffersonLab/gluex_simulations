@@ -1,7 +1,6 @@
 #!/bin/tcsh
 # version specification
-#set VERSION_XML=/group/halld/www/halldweb/html/dist/version_1.10.xml
-set VERSION_XML=/home/gxproj4/version_newbcal.xml
+set VERSION_XML=/group/halld/www/halldweb/html/dist/version_1.15_jlab.xml
 #
 setenv BUILD_SCRIPTS /group/halld/Software/build_scripts
 setenv BMS_OSNAME `$BUILD_SCRIPTS/osrelease.pl`
