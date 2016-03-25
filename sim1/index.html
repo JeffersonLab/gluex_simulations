@@ -1,0 +1,140 @@
+<html>
+  <head>
+<title>Spring 2016 Data Simulations: sim1</title>
+</head>
+<body>
+<h1>Spring 2016 Data Simulations: sim1</h1>
+
+<!-- got to here -->
+
+<h2>Versions</h2>
+
+<table border="1">
+<tr><th>package<th>version
+<tr><td>version management system file<td><a href="https://halldweb.jlab.org/dist/version_1.8.xml">version_1.8.xml</a>
+<tr><td>CCDB SQLite file</td><td>/group/halld/Software/calib/ccdb_sqlite/ccdb_2015-09-07.sqlite</td>
+<tr><td>JANA_CALIB_CONTEXT</td><td>"variation=mc_6gev calibtime=2015-09-21"</td>
+</table>
+
+<h2>Commands</h2>
+
+<ol>
+  <li><b>bggen command (hadronic events only)</b>: bggen
+  <li><b>hdgeant command</b>: hdgeant
+  <li><b>mcsmear command</b>: mcsmear -PJANA:BATCH_MODE=1 -PTHREAD_TIMEOUT=300 -PNTHREADS=1 hdgeant.hddm
+  <li><b>hd_root command</b>: hd_root -PJANA:BATCH_MODE=1 -PTHREAD_TIMEOUT=300 -PNTHREADS=1 -PPLUGINS=danarest,TAGH_online,BCAL_online,FCAL_online,ST_online_tracking,TOF_online,monitoring_hists,BCAL_Eff,p2pi_hists,p3pi_hists,BCAL_inv_mass,trackeff_missing,TRIG_online $bfield_option hdgeant_smeared_${run}_${file}.hddm
+  <table border>
+  <tr><td colspan="2" align="center"><b>$bfield_option</b>
+  <tr><td>no field<td>-PBFIELD_TYPE=NoField
+  <tr><td>800 A<td>-PBFIELD_MAP=Magnets/Solenoid/solenoid_800A_poisson_20150427
+  <tr><td>1300 A<td>-PBFIELD_MAP=Magnets/Solenoid/solenoid_1300A_poisson_20150330
+  </table>
+</ol>
+
+<h3>JLab Farm Control Files</h3>
+
+<ul>
+<li>Generation: bggen, hdgeant, mcsmear
+<li>Reconstruction: hd_root
+</ul>
+<table border>
+<tr><th>File Type</th><th>File</th></tr>
+<tr><td>Submission File Template</td><td><a href="../../../jproj/projects/detcom_02/detcom_02.jsub">detcom_02.1.jsub</a></td></tr>
+<tr><td>Job Script Template</td><td><a href="../../../jproj/projects/detcom_02/detcom_02.csh">detcom_02.1.csh</a></td></tr>
+</table>
+
+<h2>Run Numbers</h2>
+
+<table border>
+<tr>
+<th> Run number
+</th>
+<th> Magnetic Field
+</th>
+<th> Photon Spectrum
+</th>
+<th> Event Type
+</th>
+<th> Events/File
+</th>
+<th> # of Files
+</th></tr>
+<td> 9306 </td>
+<td> 1300A </td>
+<td> Coherent </td>
+<td> bggen </td>
+<td> 30k  </td>
+<td> 5000
+</td></tr>
+</table>
+
+<h2>File Name Conventions</h2>
+
+<table border>
+<tr><th>File Type<th>Filename Template
+<tr><td>HDGeant output, unreconstructed, unsmeared (HDDM format)<td>hdgeant_RRRRR_FFFFFFF.hddm
+<tr><td>mcsmear output, unreconstructed (HDDM format)<td>hdgeant_smeared_RRRRR_FFFFFFF.hddm
+<tr><td>mcsmear output, unreconstructed (EVIO format)<td>rawevent_RRRRR_FFFFFFF.evio
+<tr><td>REST<td>dana_rest_RRRRR_FFFFFFF.hddm
+<tr><td>ROOT<td>hd_root_RRRRR_FFFFFFF.hddm
+</table>
+Note:
+<ul>
+<li>RRRRR = run number, five digits, padded with zeros on left
+<li>FFFFFFF = file number, seven digits, padded with zeros on left
+</ul>
+
+<h2>Configuration Files</h2>
+
+<table border="1">
+  <tr><th>File<th>Description
+  <tr><td><a href="../conditions/setup_jlab.csh">setup_jlab.csh</td><td>set-up script for farm environment at JLab
+  <tr><td><a href="../conditions/run.ffr.template">run.ffr.template</a><td>template configuration file for bggen with place-holder strings for the number of events and for the random number seed. Note that you must do a "ln -s run.ffr fort.15" in the run directory for bggen to respect the contents of run.ffr.
+  <tr><td><a href="../conditions/control.in.template">control.in.template</a><td>template configuration file for hdgeant
+  <tr><td><a href="../conditions/gsr.pl">gsr.pl</a><td>Perl script to replace place-holder strings in configuration files with actual values. Original file is overwritten. Backup is made first.<br>
+<pre>
+usage: gsr.pl &lt;target-string> &lt;replacement-string> &lt;filename>
+</pre>
+  <tr><td><a href="../conditions/particle.dat">particle.dat</a><td>config file for bggen
+  <tr><td><a href="../conditions/pythia.dat">pythia.dat</a><td>config file for bggen
+  <tr><td><a href="../conditions/pythia-geant.map">pythia-geant.map</a><td>config file for bggen
+  <tr><td><a href="../conditions/check_monitoring_hists.py">check_monitoring_hists.py</a><td>script for checking the output of the monitoring_hists plugin
+  </table>
+
+<h3>Getting Configuration Files</h3>
+
+To check out all of these configuration files (and the html source of this web page):
+<pre>
+    svn checkout https://halldsvn.jlab.org/repos/trunk/detcom/02.1
+</pre>
+
+<h2>Output File Location</h2>
+
+<h3>Job Output Files</h3>
+
+At JLab you can find the output files archived in the tape library. The location is /mss/halld/detcom/02.1. There are directories there, that contain output files for each job. Each output file type has its own directory:
+<ul>
+<li> hd_root: ROOT files from hd_root
+<li> rest: REST format event data
+<li> smeared: HDDM formated "raw" event data (without reconstruction)
+</ul>
+Use the "jcache" or "jget" commands to retrieve the files from tape.
+
+<h3>Job Log Files</h3>
+
+Standard output and standard error files from each job are in /work/halld/detcom/02.1/logs. The run number and file number are encoded in the name. Note that a particular run-number/file-number may correspond to multiple jobs; you are probably interested in the latest one.
+
+<h4>Standard Build</h4>
+
+The environment can be setup by running:
+<pre>
+source /group/halld/www/halldweb/html/detcom/02.1/conditions/setup_jlab.csh
+</pre>
+
+<hr>
+<pre>
+$Id: detcom_02.html 19267 2015-08-26 14:38:19Z marki $
+</pre>
+
+</body>
+</html>
