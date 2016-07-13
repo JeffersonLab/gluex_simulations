@@ -22,7 +22,7 @@
   <li><b>bggen command (hadronic events only)</b>: bggen
   <li><b>hdgeant command</b>: hdgeant
   <li><b>mcsmear command</b>: mcsmear -PJANA:BATCH_MODE=1 -PTHREAD_TIMEOUT=300 -PNTHREADS=1 hdgeant.hddm
-  <li><b>hd_root command</b>: hd_root -PJANA:BATCH_MODE=1 -PTHREAD_TIMEOUT=300 -PNTHREADS=1 -PPLUGINS=danarest,TAGH_online,BCAL_online,FCAL_online,ST_online_tracking,TOF_online,monitoring_hists,BCAL_Eff,p2pi_hists,p3pi_hists,BCAL_inv_mass,trackeff_missing,TAGM_online hdgeant_smeared.hddm"
+  <li><b>hd_root command</b>: hd_root -PJANA:BATCH_MODE=1 -PTHREAD_TIMEOUT=300 -PNTHREADS=1 -PPLUGINS=danarest,monitoring_hists,track_skimmer,occupancy_online,EPICS_dump,TS_scaler,TRIG_online,L1_online,PSPair_online,BCAL_inv_mass,FCAL_invmass,BCAL_Hadronic_Eff,CDC_Efficiency,FCAL_Hadronic_Eff,FDC_Efficiency,SC_Eff,TOF_Eff -PTRKFIT:HYPOTHESES=2,3,8,9,11,12,14 hdgeant_smeared.hddm
 </ol>
 
 <h3>JLab Farm Control Files</h3>

@@ -1,6 +1,11 @@
 #!/bin/tcsh
+#
+# farm-specific set-up
+set GCC_HOME=/apps/gcc/4.9.2
+setenv PATH ${GCC_HOME}/bin:${PATH}
+setenv LD_LIBRARY_PATH ${GCC_HOME}/lib64:${GCC_HOME}/lib
 # version specification
-set VERSION_XML=/group/halld/www/halldweb/html/dist/version_1.18.xml  # UPDATE THIS
+set VERSION_XML=/group/halld/www/halldweb/html/dist/version_1.21.xml  # UPDATE THIS
 #
 setenv BUILD_SCRIPTS /group/halld/Software/build_scripts
 setenv BMS_OSNAME `$BUILD_SCRIPTS/osrelease.pl`
@@ -13,8 +18,8 @@ setenv JANA_RESOURCE_DIR /group/halld/www/halldweb/html/resources
 setenv PATH /apps/python/PRO/bin:$PATH
 setenv LD_LIBRARY_PATH /apps/python/PRO/lib:$LD_LIBRARY_PATH
 # Use January 7, 2016 version of CCDB SQLite
-setenv CCDB_CONNECTION sqlite:////group/halld/Software/calib/ccdb_sqlite/ccdb_2016-05-26.sqlite
-setenv JANA_CALIB_URL sqlite:////group/halld/Software/calib/ccdb_sqlite/ccdb_2016-05-26.sqlite
+setenv CCDB_CONNECTION sqlite:////group/halld/Software/calib/ccdb_sqlite/ccdb_2016-07-07.sqlite
+setenv JANA_CALIB_URL sqlite:////group/halld/Software/calib/ccdb_sqlite/ccdb_2016-07-07.sqlite
 #setenv JANA_CALIB_URL sqlite:////group/halld/www/halldweb/html/dist/ccdb.sqlite
 if ( ! $?JANA_CALIB_CONTEXT ) then
     echo "WARNING: JANA_CALIB_CONTEXT not set!  Setting default variation to mc_sim1 ..."
