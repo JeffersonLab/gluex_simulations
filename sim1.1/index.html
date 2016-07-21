@@ -11,18 +11,18 @@
 
 <table border="1">
 <tr><th>package<th>version
-<tr><td>version management system file<td><a href="https://halldweb.jlab.org/dist/version_1.18.xml">version_1.18.xml</a>
-<tr><td>CCDB SQLite file</td><td>/group/halld/Software/calib/ccdb_sqlite/ccdb_2016-05-26.sqlite</td>
+<tr><td>version management system file<td><a href="https://halldweb.jlab.org/dist/version_1.22.xml">version_1.22.xml</a>
+<tr><td>CCDB SQLite file</td><td>/group/halld/Software/calib/ccdb_sqlite/ccdb_2016-07-07.sqlite</td>
 <tr><td>JANA_CALIB_CONTEXT</td><td>"variation=mc_sim1"</td>
 </table>
 
 <h2>Commands</h2>
 
 <ol>
-  <li><b>bggen command (hadronic events only)</b>: bggen
-  <li><b>hdgeant command</b>: hdgeant
-  <li><b>mcsmear command</b>: mcsmear -PJANA:BATCH_MODE=1 -PTHREAD_TIMEOUT=300 -PNTHREADS=1 hdgeant.hddm
-  <li><b>hd_root command</b>: hd_root -PJANA:BATCH_MODE=1 -PTHREAD_TIMEOUT=300 -PNTHREADS=1 -PPLUGINS=danarest,monitoring_hists,track_skimmer,occupancy_online,EPICS_dump,TS_scaler,TRIG_online,L1_online,PSPair_online,BCAL_inv_mass,FCAL_invmass,BCAL_Hadronic_Eff,CDC_Efficiency,FCAL_Hadronic_Eff,FDC_Efficiency,SC_Eff,TOF_Eff -PTRKFIT:HYPOTHESES=2,3,8,9,11,12,14 hdgeant_smeared.hddm
+  <li><b>bggen command</b>: bggen</li>
+  <li><b>hdgeant command</b>: hdgeant</li>
+  <li><b>mcsmear command</b>: mcsmear -PJANA:BATCH_MODE=1 -PTHREAD_TIMEOUT=300 -PNTHREADS=1 hdgeant.hddm</li>
+  <li><b>hd_root command</b>: hd_root -PJANA:BATCH_MODE=1 -PNTHREADS=1 -PPLUGINS=danarest,monitoring_hists,TRIG_online,BCAL_inv_mass,FCAL_invmass,BCAL_Hadronic_Eff,CDC_Efficiency,FCAL_Hadronic_Eff,FDC_Efficiency,SC_Eff,TOF_Eff -PTRKFIT:HYPOTHESES=2,3,8,9,11,12,14 hdgeant_smeared.hddm</li>
 </ol>
 
 <h3>JLab Farm Control Files</h3>
@@ -33,48 +33,19 @@
 <tr><td>Job Script Template</td><td><a href="../../jproj/projects/sim1/sim1.csh">sim1.csh</a></td></tr>
 </table>
 
-<h2>Run Numbers</h2>
-
-To be decided.
-
-<!--
-<table border>
-<tr>
-<th> Run number
-</th>
-<th> Magnetic Field
-</th>
-<th> Photon Spectrum
-</th>
-<th> Event Type
-</th>
-<th> Events/File
-</th>
-<th> # of Files
-</th></tr>
-<td> 10000 </td>
-<td> 1200 A </td>
-<td> Coherent </td>
-<td> bggen </td>
-<td> 25,000  </td>
-<td> 15,000
-</td></tr>
-</table>
--->
-
 <h2>File Name Conventions</h2>
 
 <table border>
 <tr><th>File Type<th>Filename Template
 <tr><td>HDGeant output, unreconstructed, unsmeared (HDDM format)<td>hdgeant.hddm
 <tr><td>mcsmear output, unreconstructed (HDDM format)<td>hdgeant_smeared.hddm
-<tr><td>REST<td>dana_rest_RRRRRR_FFFFFFF.hddm
-<tr><td>ROOT<td>hd_root_RRRRRR_FFFFFFF.hddm
+<tr><td>REST<td>dana_rest_RRRRRR_FFFF.hddm
+<tr><td>ROOT<td>hd_root_RRRRRR_FFFF.hddm
 </table>
 Note:
 <ul>
 <li>RRRRRR = run number, six digits, padded with zeros on left
-<li>FFFFFFF = file number, seven digits, padded with zeros on left
+<li>FFFF = file number, four digits, padded with zeros on left
 </ul>
 
 <h2>Configuration Files</h2>
@@ -83,7 +54,8 @@ Note:
   <tr><th>File<th>Description
   <tr><td><a href="setup_jlab.csh">setup_jlab.csh</td><td>set-up script for farm environment at JLab
   <tr><td><a href="run.ffr.template">run.ffr.template</a><td>template configuration file for bggen with place-holder strings for the number of events and for the random number seed. Note that you must do a "ln -s run.ffr fort.15" in the run directory for bggen to respect the contents of run.ffr.
-  <tr><td><a href="control.in_9001">control.in_9001</a><td>template configuration file for hdgeant (historical name)
+  <tr><td><a href="control.in_3.4mm_coll">control.in_3.4mm_coll</a><td>template configuration file for hdgeant for runs with the 3.4 mm collimator
+  <tr><td><a href="control.in_5.0mm_coll">control.in_5.0mm_coll</a><td>template configuration file for hdgeant for runs with the 5.0 mm collimator
   <tr><td><a href="gsr.pl">gsr.pl</a><td>Perl script to replace place-holder strings in configuration files with actual values. Original file is overwritten. Backup is made first.<br>
 <pre>
 usage: gsr.pl &lt;target-string> &lt;replacement-string> &lt;filename>
@@ -106,17 +78,21 @@ To check out all of these configuration files (and the html source of this web p
 
 <h3>Job Output Files</h3>
 
-At JLab you can find the output files archived in the tape library. The location is /mss/halld/gluex_simulations/sim1 There are directories there, that contain output files for each job. Each output file type has its own directory:
+The output files are located in /volatile/halld/gluex_simulations/sim1.1 There are directories there, that contain output files for each job. Each output file type has its own directory:
 <ul>
 <li> hd_root: ROOT files from hd_root
 <li> rest: REST format event data
 <li> smeared: HDDM formated "raw" event data (without reconstruction)
+<li> tree_bcal_hadronic_eff: ROOT files from the plugin
+<li> tree_fcal_hadronic_eff: ROOT files from the plugin
+<li> tree_sc_eff: ROOT files from the plugin
+<li> tree_tof_eff: ROOT files from the plugin
 </ul>
 Use the "jcache" or "jget" commands to retrieve the files from tape.
 
 <h3>Job Log Files</h3>
 
-Standard output and standard error files from each job are in /work/halld/gluex_simulations/sim1/logs. The run number and file number are encoded in the name. Note that a particular run-number/file-number may correspond to multiple jobs; you are probably interested in the latest one.
+Standard output and standard error files from each job are in /work/halld/gluex_simulations/sim1.1/logs. The run number and file number are encoded in the name. Note that a particular run-number/file-number may correspond to multiple jobs; you are probably interested in the latest one.
 
 <h4>Standard Build</h4>
 
