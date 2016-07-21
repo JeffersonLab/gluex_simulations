@@ -17,7 +17,7 @@ setenv JANA_RESOURCE_DIR /group/halld/www/halldweb/html/resources
 # python on the cue
 setenv PATH /apps/python/PRO/bin:$PATH
 setenv LD_LIBRARY_PATH /apps/python/PRO/lib:$LD_LIBRARY_PATH
-# Use January 7, 2016 version of CCDB SQLite
+# Use July 7, 2016 version of CCDB SQLite
 setenv CCDB_CONNECTION sqlite:////group/halld/Software/calib/ccdb_sqlite/ccdb_2016-07-07.sqlite
 setenv JANA_CALIB_URL sqlite:////group/halld/Software/calib/ccdb_sqlite/ccdb_2016-07-07.sqlite
 #setenv JANA_CALIB_URL sqlite:////group/halld/www/halldweb/html/dist/ccdb.sqlite
