@@ -5,7 +5,7 @@ set GCC_HOME=/apps/gcc/4.9.2
 setenv PATH ${GCC_HOME}/bin:${PATH}
 setenv LD_LIBRARY_PATH ${GCC_HOME}/lib64:${GCC_HOME}/lib
 # version specification
-set VERSION_XML=/group/halld/www/halldweb/html/dist/version_1.22.xml
+set VERSION_XML=/group/halld/www/halldweb/html/dist/version_1.23.xml
 #
 setenv BUILD_SCRIPTS /group/halld/Software/build_scripts
 setenv BMS_OSNAME `$BUILD_SCRIPTS/osrelease.pl`
