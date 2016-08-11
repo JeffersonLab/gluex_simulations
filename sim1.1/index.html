@@ -78,15 +78,14 @@ To check out all of these configuration files (and the html source of this web p
 
 <h3>Job Output Files</h3>
 
-The output files are located in /volatile/halld/gluex_simulations/sim1_1 There are directories there, that contain output files for each job. Each output file type has its own directory:
 <ul>
-<li> hd_root: ROOT files from hd_root
-<li> rest: REST format event data
-<li> smeared: HDDM formated "raw" event data (without reconstruction)
-<li> tree_bcal_hadronic_eff: ROOT files from the plugin
-<li> tree_fcal_hadronic_eff: ROOT files from the plugin
-<li> tree_sc_eff: ROOT files from the plugin
-<li> tree_tof_eff: ROOT files from the plugin
+<li> /work/halld/gluex_simulations/sim1_1/hd_root: ROOT files from hd_root
+<li> /mss/halld/gluex_simulations/sim1_1/rest: REST format event data (tape library files)
+<li> /mss/halld/gluex_simulations/sim1_1/smeared: HDDM formated "raw" event data (tape library files, only the first file of each run)
+<li> /work/halld/gluex_simulations/sim1_1/tree_bcal_hadronic_eff: ROOT files from the plugin
+<li> /work/halld/gluex_simulations/sim1_1/tree_fcal_hadronic_eff: ROOT files from the plugin
+<li> /work/halld/gluex_simulations/sim1_1/tree_sc_eff: ROOT files from the plugin
+<li> /work/halld/gluex_simulations/sim1_1/tree_tof_eff: ROOT files from the plugin
 </ul>
 Use the "jcache" or "jget" commands to retrieve the files from tape.
 
