@@ -1,0 +1,109 @@
+<html>
+  <head>
+<title>Spring 2016 Data Simulations: sim1.1</title>
+</head>
+<body>
+<h1>Spring 2016 Data Simulations: sim1.1</h1>
+
+<!-- got to here -->
+
+<h2>Versions</h2>
+
+<table border="1">
+<tr><th>package<th>version
+<tr><td>version management system file<td><a href="https://halldweb.jlab.org/dist/version_1.22.xml">version_1.22.xml</a>
+<tr><td>CCDB SQLite file</td><td>/group/halld/Software/calib/ccdb_sqlite/ccdb_2016-07-07.sqlite</td>
+<tr><td>JANA_CALIB_CONTEXT</td><td>"variation=mc_sim1"</td>
+</table>
+
+<h2>Commands</h2>
+
+<ol>
+  <li><b>bggen command</b>: bggen</li>
+  <li><b>hdgeant command</b>: hdgeant</li>
+  <li><b>mcsmear command</b>: mcsmear -PJANA:BATCH_MODE=1 -PTHREAD_TIMEOUT=300 -PNTHREADS=1 hdgeant.hddm</li>
+  <li><b>hd_root command</b>: hd_root -PJANA:BATCH_MODE=1 -PNTHREADS=1 -PPLUGINS=danarest,monitoring_hists,TRIG_online,BCAL_inv_mass,FCAL_invmass,BCAL_Hadronic_Eff,CDC_Efficiency,FCAL_Hadronic_Eff,FDC_Efficiency,SC_Eff,TOF_Eff -PTRKFIT:HYPOTHESES=2,3,8,9,11,12,14 hdgeant_smeared.hddm</li>
+</ol>
+
+<h3>JLab Farm Control Files</h3>
+
+<table border>
+<tr><th>File Type</th><th>File</th></tr>
+<tr><td>Submission File Template</td><td><a href="../../jproj/projects/sim1/sim1.jsub">sim1.jsub</a></td></tr>
+<tr><td>Job Script Template</td><td><a href="../../jproj/projects/sim1/sim1.csh">sim1.csh</a></td></tr>
+</table>
+
+<h2>File Name Conventions</h2>
+
+<table border>
+<tr><th>File Type<th>Filename Template
+<tr><td>HDGeant output, unreconstructed, unsmeared (HDDM format)<td>hdgeant.hddm
+<tr><td>mcsmear output, unreconstructed (HDDM format)<td>hdgeant_smeared.hddm
+<tr><td>REST<td>dana_rest_RRRRRR_FFFF.hddm
+<tr><td>ROOT<td>hd_root_RRRRRR_FFFF.hddm
+</table>
+Note:
+<ul>
+<li>RRRRRR = run number, six digits, padded with zeros on left
+<li>FFFF = file number, four digits, padded with zeros on left
+</ul>
+
+<h2>Configuration Files</h2>
+
+<table border="1">
+  <tr><th>File<th>Description
+  <tr><td><a href="setup_jlab.csh">setup_jlab.csh</td><td>set-up script for farm environment at JLab
+  <tr><td><a href="run.ffr.template">run.ffr.template</a><td>template configuration file for bggen with place-holder strings for the number of events and for the random number seed. Note that you must do a "ln -s run.ffr fort.15" in the run directory for bggen to respect the contents of run.ffr.
+  <tr><td><a href="control.in_3.4mm_coll">control.in_3.4mm_coll</a><td>template configuration file for hdgeant for runs with the 3.4 mm collimator
+  <tr><td><a href="control.in_5.0mm_coll">control.in_5.0mm_coll</a><td>template configuration file for hdgeant for runs with the 5.0 mm collimator
+  <tr><td><a href="gsr.pl">gsr.pl</a><td>Perl script to replace place-holder strings in configuration files with actual values. Original file is overwritten. Backup is made first.<br>
+<pre>
+usage: gsr.pl &lt;target-string> &lt;replacement-string> &lt;filename>
+</pre>
+  <tr><td><a href="particle.dat">particle.dat</a><td>config file for bggen
+  <tr><td><a href="pythia.dat">pythia.dat</a><td>config file for bggen
+  <tr><td><a href="pythia-geant.map">pythia-geant.map</a><td>config file for bggen
+  <tr><td><a href="check_monitoring_hists.py">check_monitoring_hists.py</a><td>script for checking the output of the monitoring_hists plugin
+  </table>
+
+<h3>Getting Configuration Files</h3>
+
+To check out all of these configuration files (and the html source of this web page):
+<pre>
+    git clone https://github.com/jeffersonlab/gluex_simulations
+    git clone https://github.com/markito3/jproj
+</pre>
+
+<h2>Output File Location</h2>
+
+<h3>Job Output Files</h3>
+
+<ul>
+<li> /work/halld/gluex_simulations/sim1_1/hd_root: ROOT files from hd_root
+  <ul><li> Tape Library location: tar files under /mss/halld/gluex_simulations/sim1_1/hd_root </ul>
+<li> /mss/halld/gluex_simulations/sim1_1/rest: REST format event data (tape library files)
+<li> /mss/halld/gluex_simulations/sim1_1/smeared: HDDM formated "raw" event data (tape library files, only the first file of each run)
+<li> /work/halld/gluex_simulations/sim1_1/tree_bcal_hadronic_eff: ROOT files from the plugin
+  <ul><li> Tape Library location: /mss/halld/gluex_simulations/sim1_1/sim1_1_tree_bcal_hadronic_eff.tar.gz </ul>
+<li> /work/halld/gluex_simulations/sim1_1/tree_fcal_hadronic_eff: ROOT files from the plugin
+  <ul><li> Tape Library location: /mss/halld/gluex_simulations/sim1_1/sim1_1_tree_fcal_hadronic_eff.tar.gz </ul>
+<li> /work/halld/gluex_simulations/sim1_1/tree_sc_eff: ROOT files from the plugin
+  <ul><li> Tape Library location: /mss/halld/gluex_simulations/sim1_1/sim1_1_tree_sc_eff.tar.gz </ul>
+<li> /work/halld/gluex_simulations/sim1_1/tree_tof_eff: ROOT files from the plugin
+  <ul><li> Tape Library location: /mss/halld/gluex_simulations/sim1_1/sim1_1_tree_tof_eff.tar.gz </ul>
+</ul>
+Use the "jcache" or "jget" commands to retrieve the files from tape.
+
+<h3>Job Log Files</h3>
+
+Standard output and standard error files from each job are in /work/halld/gluex_simulations/sim1.1/logs. The run number and file number are encoded in the name. Note that a particular run-number/file-number may correspond to multiple jobs; you are probably interested in the latest one.
+
+<h4>Standard Build</h4>
+
+The environment can be setup by running:
+<pre>
+source /group/halld/www/halldweb/html/gluex_simulations/sim1.1/setup_jlab.csh
+</pre>
+
+</body>
+</html>
