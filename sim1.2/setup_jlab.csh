@@ -1,7 +1,7 @@
 #!/bin/tcsh
 #
 # version specification
-set VERSION_XML=/group/halld/www/halldweb/html/dist/version_1.29.xml
+set VERSION_XML=/group/halld/www/halldweb/html/dist/version_1.30.xml
 #
 setenv BUILD_SCRIPTS /group/halld/Software/build_scripts
 setenv BMS_OSNAME `$BUILD_SCRIPTS/osrelease.pl`
