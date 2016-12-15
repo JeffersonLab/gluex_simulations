@@ -14,24 +14,24 @@
 <tr><td>JANA_CALIB_CONTEXT</td><td>"variation=mc calibtime=2016-12-06"</td>
 </table>
 
-<!-- got to here -->
-
 <h2>Commands</h2>
 
 <ol>
   <li><b>bggen command</b>: bggen</li>
   <li><b>hdgeant command</b>: hdgeant</li>
   <li><b>mcsmear command</b>: mcsmear -PJANA:BATCH_MODE=1 -PTHREAD_TIMEOUT=300 -PNTHREADS=1 hdgeant.hddm</li>
-  <li><b>hd_root command</b>: hd_root -PJANA:BATCH_MODE=1 -PNTHREADS=1 -PPLUGINS=danarest,monitoring_hists,TRIG_online,BCAL_inv_mass,FCAL_invmass,BCAL_Hadronic_Eff,CDC_Efficiency,FCAL_Hadronic_Eff,FDC_Efficiency,SC_Eff,TOF_Eff -PTRKFIT:HYPOTHESES=2,3,8,9,11,12,14 hdgeant_smeared.hddm</li>
+  <li><b>hd_root command</b>: hd_root -PJANA:BATCH_MODE=1 -PNTHREADS=1 -PPLUGINS=danarest,monitoring_hists,TRIG_online,BCAL_inv_mass,FCAL_invmass,BCAL_Hadronic_Eff,CDC_Efficiency,FCAL_Hadronic_Eff,FDC_Efficiency,SC_Eff,TOF_Eff,p2pi_hists,p3pi_hists -PTRKFIT:HYPOTHESES=2,3,8,9,11,12,14 hdgeant_smeared.hddm</li>
 </ol>
 
 <h3>JLab Farm Control Files</h3>
 
 <table border>
 <tr><th>File Type</th><th>File</th></tr>
-<tr><td>Submission File Template</td><td><a href="../../jproj/projects/sim1/sim1.jsub">sim1.jsub</a></td></tr>
-<tr><td>Job Script Template</td><td><a href="../../jproj/projects/sim1/sim1.csh">sim1.csh</a></td></tr>
+<tr><td>Submission File Template</td><td><a href="../../jproj/projects/sim1_2/sim1_2.jsub">sim1_2.jsub</a></td></tr>
+<tr><td>Job Script Template</td><td><a href="../../jproj/projects/sim1_2/sim1_2.csh">sim1_2.csh</a></td></tr>
+<tr><td>Job Parameter Definitions</td><td><a href="../../jproj/projects/sim1_2/sim1_2.csh">sim1_2.jproj</a></td></tr>
 </table>
+<!-- got to here -->
 
 <h2>File Name Conventions</h2>
 
@@ -63,7 +63,6 @@ usage: gsr.pl &lt;target-string> &lt;replacement-string> &lt;filename>
   <tr><td><a href="particle.dat">particle.dat</a><td>config file for bggen
   <tr><td><a href="pythia.dat">pythia.dat</a><td>config file for bggen
   <tr><td><a href="pythia-geant.map">pythia-geant.map</a><td>config file for bggen
-  <tr><td><a href="check_monitoring_hists.py">check_monitoring_hists.py</a><td>script for checking the output of the monitoring_hists plugin
   </table>
 
 <h3>Getting Configuration Files</h3>
@@ -96,13 +95,13 @@ Use the "jcache" or "jget" commands to retrieve the files from tape.
 
 <h3>Job Log Files</h3>
 
-Standard output and standard error files from each job are in /work/halld/gluex_simulations/sim1.1/logs. The run number and file number are encoded in the name. Note that a particular run-number/file-number may correspond to multiple jobs; you are probably interested in the latest one.
+Standard output and standard error files from each job are in /work/halld/gluex_simulations/sim1_2/logs. The run number and file number are encoded in the name. Note that a particular run-number/file-number may correspond to multiple jobs; you are probably interested in the latest one.
 
 <h4>Standard Build</h4>
 
 The environment can be setup by running:
 <pre>
-source /group/halld/www/halldweb/html/gluex_simulations/sim1.1/setup_jlab.csh
+source /group/halld/www/halldweb/html/gluex_simulations/sim1.2/setup_jlab.csh
 </pre>
 
 </body>
