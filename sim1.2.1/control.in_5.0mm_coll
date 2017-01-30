@@ -136,7 +136,7 @@ c where K is a scale factor calculated inside uginit.F:
 c       K = 1 for Thr = 0.12 GeV,
 c       K > 1 for Thr < 0.12 GeV. 
 c Note, K is calculated assuming the beam energies Emax = 12, Epeak = 9. 
-BGRATE 1.10
+BGRATE 0.00
 BGGATE -800. 800.
 
 c The following line controls the uncertainty of the event time reference
