@@ -16,8 +16,8 @@ setenv PATH `pwd`:$PATH # put current directory into the path
 echo -=-environment-=-
 #source setup_jlab.csh
 setenv JANA_RESOURCE_DIR $jana_resources
-setenv CCDB_CONNECTION $ccdb_location
-setenv JANA_CALIB_URL $ccdb_location
+setenv CCDB_CONNECTION sqlite:///$ccdb_location
+setenv JANA_CALIB_URL $CCDB_CONNECTION
 #setenv JANA_CALIB_CONTEXT "variation=mc calibtime=2017-01-31"
 setenv JANA_CALIB_CONTEXT "variation=mc"
 printenv | sort
@@ -25,8 +25,8 @@ printenv | sort
 # set flags based on run number
 #
 #set collimator = `rcnd $run collimator_diameter | awk '{print $1}'`
-#echo collimator = $collimator
-echo collimator = "5.0mm"
+set collimator = "5.0mm"
+echo collimator = $collimator
 if ($collimator == "") then
     echo "no value returned for collimator"
     exit 1
@@ -46,11 +46,6 @@ echo -=-=-=-=-=-=-
 set command = bggen
 echo command = $command
 $command
-echo -=-clean up bggen-=-
-rm -v run.ffr*
-rm -v fort.15
-rm -v particle.dat
-rm -v pythia*
 echo -=-ls -lt after bggen-=-
 ls -lt
 echo -=-run hdgeant-=-
@@ -62,9 +57,6 @@ echo -=-=-=-=-=-=-=-=
 set command = hdgeant
 echo command = $command
 $command
-echo -=-clean up hdgeant-=-
-rm -v bggen.hddm
-rm -v control.in*
 echo -=-ls -lt after hdgeant-=-
 ls -lt
 echo -=-run mcsmear-=-
@@ -72,9 +64,6 @@ set command = "mcsmear -PJANA:BATCH_MODE=1 -PTHREAD_TIMEOUT=300 -PNTHREADS=1"
 set command = "$command hdgeant.hddm"
 echo command = $command
 $command
-echo -=-clean up mcsmear-=-
-rm -v hdgeant.hddm
-rm -v smear.root
 echo -=-ls -lt after mcsmear-=-
 ls -lt
 echo -=-run hd_root-=-
@@ -102,14 +91,6 @@ mv -v hd_root.root hd_root_${run}_${file}.root
 #cp -v tree_sc_eff.root $tree_sc_eff_dir/tree_sc_eff_${run}_${file}.root
 #cp -v tree_tof_eff.root $tree_tof_eff_dir/tree_tof_eff_${run}_${file}.root
 #
-echo -=-final clean up-=-
-rm -v check_monitoring_hists.py
-rm -v gsr.pl
-rm -v index.html
-rm -v setup_jlab.csh
-rm -v top_level.sh
-rm -v index*
-rm -v *.py
 echo -=-end run-=-
 date
 echo -=-exit-=-
