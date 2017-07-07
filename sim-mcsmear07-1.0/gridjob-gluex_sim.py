@@ -72,7 +72,7 @@ def do_slice(arglist):
    
 
    # get the supporting files for the job
-   os.system("wget -nd -r --no-parent https://halldweb.jlab.org/gluex_simulations/%s"%gluex_sim_project)
+   os.system("wget -nd -r --no-parent https://halldweb.jlab.org/gluex_simulations/%s/"%gluex_sim_project)
    os.system("chmod +x sim.csh")
    os.system("chmod +x gsr.pl")
 
@@ -88,8 +88,11 @@ def do_slice(arglist):
    files_to_clean = [ "check_monitoring_hists.py", "gridjob-classic.py", "gridjob-template.py", "gsr.pl", 
                       "control.in_3.4mm_coll", "control.in_5.0mm_coll", "index.html", "osg-container.sh", "particle.dat", 
                       "pythia.dat", "pythia-geant.map", "run.ffr.3.4mm_coll.template", "run.ffr.5.0mm_coll.template", 
-                      "setup_jlab.csh", "sim.csh", "top_level.sh" ]
-   files_to_clean += [ "fort.15", "run.ffr", "smear.root", "hdgeant.hddm" ]
+                      "setup_jlab.csh", "sim.csh", "top_level.sh", "sim-mcsmear07-1.0" ]
+   files_to_clean += [ "fort.15", "run.ffr", "bggen.his", "bggen.hddm", "smear.root", 
+                       "hdgeant.rz", "geant.hbook", "hdgeant.hddm" ]
+   for fname in files_to_clean:
+      os.remove(fname)
    os.remove(calib_db_copy)
    return 0
 
