@@ -16,8 +16,8 @@ setenv PATH `pwd`:$PATH # put current directory into the path
 echo -=-environment-=-
 #source setup_jlab.csh
 setenv JANA_RESOURCE_DIR $jana_resources
-setenv CCDB_CONNECTION $ccdb_location
-setenv JANA_CALIB_URL $ccdb_location
+setenv CCDB_CONNECTION sqlite:///$ccdb_location
+setenv JANA_CALIB_URL $CCDB_CONNECTION
 #setenv JANA_CALIB_CONTEXT "variation=mc calibtime=2017-01-31"
 setenv JANA_CALIB_CONTEXT "variation=mc"
 printenv | sort
