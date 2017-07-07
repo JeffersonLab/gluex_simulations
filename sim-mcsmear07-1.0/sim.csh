@@ -24,8 +24,9 @@ printenv | sort
 #
 # set flags based on run number
 #
-set collimator = `rcnd $run collimator_diameter | awk '{print $1}'`
-echo collimator = $collimator
+#set collimator = `rcnd $run collimator_diameter | awk '{print $1}'`
+#echo collimator = $collimator
+echo collimator = "5.0mm"
 if ($collimator == "") then
     echo "no value returned for collimator"
     exit 1
@@ -73,6 +74,7 @@ echo command = $command
 $command
 echo -=-clean up mcsmear-=-
 rm -v hdgeant.hddm
+rm -v smear.root
 echo -=-ls -lt after mcsmear-=-
 ls -lt
 echo -=-run hd_root-=-
@@ -91,9 +93,9 @@ ls -lt
 #
 echo -=-rename output files for staging-=-
 #
-mv -v hdgeant_smeared.hddm $smeared_dir/hdgeant_smeared_${run}_${file}.hddm
-mv -v dana_rest.hddm $rest_dir/dana_rest_${run}_${file}.hddm
-mv -v hd_root.root $hd_root_dir/hd_root_${run}_${file}.root
+mv -v hdgeant_smeared.hddm hdgeant_smeared_${run}_${file}.hddm
+mv -v dana_rest.hddm dana_rest_${run}_${file}.hddm
+mv -v hd_root.root hd_root_${run}_${file}.root
 #
 #cp -v tree_bcal_hadronic_eff.root $tree_bcal_hadronic_eff_dir/tree_bcal_hadronic_eff_${run}_${file}.root
 #cp -v tree_fcal_hadronic_eff.root $tree_fcal_hadronic_eff_dir/tree_fcal_hadronic_eff_${run}_${file}.root
@@ -106,6 +108,8 @@ rm -v gsr.pl
 rm -v index.html
 rm -v setup_jlab.csh
 rm -v top_level.sh
+rm -v index*
+rm -v *.py
 echo -=-end run-=-
 date
 echo -=-exit-=-
