@@ -17,7 +17,8 @@ echo -=-environment-=-
 #source setup_jlab.csh
 setenv JANA_RESOURCE_DIR $jana_resources
 setenv CCDB_CONNECTION sqlite:///$ccdb_location
-setenv JANA_CALIB_URL $CCDB_CONNECTION
+#setenv JANA_CALIB_URL $CCDB_CONNECTION
+setenv JANA_CALIB_URL mysql://ccdb_user@hallddb.jlab.org/ccdb
 #setenv JANA_CALIB_CONTEXT "variation=mc calibtime=2017-01-31"
 setenv JANA_CALIB_CONTEXT "variation=mc"
 printenv | sort
