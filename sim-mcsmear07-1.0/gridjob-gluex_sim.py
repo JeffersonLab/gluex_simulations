@@ -12,14 +12,15 @@ import tempfile
 import subprocess
 
 python_mods = "/cvmfs/singularity.opensciencegrid.org/rjones30/gluex:latest/usr/lib/python2.7/site-packages"
-calib_db = "/cvmfs/oasis.opensciencegrid.org/gluex/ccdb/1.06.03/sql/ccdb_2017-06-09.sqlite"
+calib_db = "/cvmfs/oasis.opensciencegrid.org/gluex/ccdb/1.06.04/sql/ccdb_2017-06-09.sqlite"
 resources = "/cvmfs/oasis.opensciencegrid.org/gluex/resources"
 templates = "/cvmfs/oasis.opensciencegrid.org/gluex/templates"
 jobname = re.sub(r"\.py$", "", os.path.basename(__file__))
 
 # define the run range and event statistics here
 
-total_events_to_generate = 10000       # aggregate for all slices in this job
+#total_events_to_generate = 10000       # aggregate for all slices in this job
+total_events_to_generate = 2500       # aggregate for all slices in this job
 number_of_events_per_slice = 250       # how many events generated per job
 number_of_slices_per_run = 50          # increment run number after this many slices
 initial_run_number = 31001             # starting value for generated run number
@@ -71,10 +72,12 @@ def do_slice(arglist):
    
 
    # get the supporting files for the job
-   os.system("wget -nd -r --no-parent https://halldweb.jlab.org/gluex_simulations/%s"%gluex_sim_project)
+   os.system("wget -nd -r --no-parent https://halldweb.jlab.org/gluex_simulations/%s/"%gluex_sim_project)
+   os.system("chmod +x sim.csh")
+   os.system("chmod +x gsr.pl")
 
    # run the script that does the heavy work
-   cmd = "./%s %s %d %d %s %s"%(script_to_execute, gluex_sim_project, run_number, slice_index, calib_db, resources)
+   cmd = "./%s %s %d %d %d %s %s"%(script_to_execute, gluex_sim_project, run_number, slice_index, number_of_events_per_slice, calib_db, resources)
    print "executing = "+cmd
    os.system(cmd)
 
@@ -82,6 +85,14 @@ def do_slice(arglist):
    #      return err
 
    # return success!
+   files_to_clean = [ "check_monitoring_hists.py", "gridjob-classic.py", "gridjob-template.py", "gsr.pl", 
+                      "control.in_3.4mm_coll", "control.in_5.0mm_coll", "index.html", "osg-container.sh", "particle.dat", 
+                      "pythia.dat", "pythia-geant.map", "run.ffr.3.4mm_coll.template", "run.ffr.5.0mm_coll.template", 
+                      "setup_jlab.csh", "sim.csh", "top_level.sh", "sim-mcsmear07-1.0" ]
+   files_to_clean += [ "fort.15", "run.ffr", "bggen.his", "bggen.hddm", "smear.root", 
+                       "hdgeant.rz", "geant.hbook", "hdgeant.hddm" ]
+   for fname in files_to_clean:
+      os.remove(fname)
    os.remove(calib_db_copy)
    return 0
 
