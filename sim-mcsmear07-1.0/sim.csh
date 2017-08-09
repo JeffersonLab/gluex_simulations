@@ -4,22 +4,21 @@ set project=$1
 set run=$2
 set file=$3
 set number_of_events=$4
-set ccdb_location=$5
-set jana_resources=$6
 echo -=-start job-=-
-date
 echo project $project run $run file $file num_events $number_of_events
-echo ccdb_location $ccdb_location jana_resources $jana_resources
+date
 #
+#cp -v /cvmfs/oasis.opensciencegrid.org/gluex/resources/sqlite/ccdb.sqlite .
 #cp -pv /group/halld/www/halldweb/html/gluex_simulations/sim1.2/* .
 setenv PATH `pwd`:$PATH # put current directory into the path
 echo -=-environment-=-
-#source setup_jlab.csh
-setenv JANA_RESOURCE_DIR $jana_resources
-setenv CCDB_CONNECTION sqlite:///$ccdb_location
+#setenv CCDB_CONNECTION mysql://ccdb_user@hallddb.jlab.org/ccdb
+#setenv CCDB_CONNECTION sqlite:////cvmfs/oasis.opensciencegrid.org/gluex/resources/sqlite/ccdb.sqlite
+setenv CCDB_CONNECTION sqlite:///`pwd`/ccdb.sqlite
 setenv JANA_CALIB_URL $CCDB_CONNECTION
-#setenv JANA_CALIB_CONTEXT "variation=mc calibtime=2017-01-31"
-setenv JANA_CALIB_CONTEXT "variation=mc"
+setenv JANA_CALIB_CONTEXT "variation=mc calibtime=2017-07-24"
+#
+echo HALLD_HOME = $HALLD_HOME
 printenv | sort
 #
 # set flags based on run number
@@ -49,7 +48,7 @@ $command
 echo -=-ls -lt after bggen-=-
 ls -lt
 echo -=-run hdgeant-=-
-rm -f control.in
+rarm -f control.in
 cp -v control.in_${collimator}_coll control.in
 echo -=-control.in-=- 
 perl -n -e 'chomp; if (! /^c/ && $_) {print "$_\n";}' < control.in
@@ -61,7 +60,11 @@ echo -=-ls -lt after hdgeant-=-
 ls -lt
 echo -=-run mcsmear-=-
 set command = "mcsmear -PJANA:BATCH_MODE=1 -PTHREAD_TIMEOUT=300 -PNTHREADS=1"
-set command = "$command hdgeant.hddm"
+if ($collimator == "31001") then
+    set command = "$command hdgeant.hddm random.hddm:1"
+else
+    set command = "$command hdgeant.hddm"
+endif
 echo command = $command
 $command
 echo -=-ls -lt after mcsmear-=-
