@@ -20,18 +20,21 @@ jobname = re.sub(r"\.py$", "", os.path.basename(__file__))
 
 # define the run range and event statistics here
 
-total_events_to_generate = 10000       # aggregate for all slices in this job
-number_of_events_per_slice = 500       # how many events generated per job
+#total_events_to_generate = 10000       # aggregate for all slices in this job
+#number_of_events_per_slice = 500       # how many events generated per job
 #
-#total_events_to_generate = 10000000       # aggregate for all slices in this job
-#total_events_to_generate = 2000000       # aggregate for all slices in this job
+#total_events_to_generate = 20000000       # aggregate for all slices in this job
+#total_events_to_generate = 5000000       # aggregate for all slices in this job
+total_events_to_generate = 2000000       # aggregate for all slices in this job
 #total_events_to_generate = 250000       # aggregate for all slices in this job
-#number_of_events_per_slice = 10000       # how many events generated per job
+number_of_events_per_slice = 10000       # how many events generated per job
 #number_of_events_per_slice = 5000       # how many events generated per job
 #number_of_events_per_slice = 25000       # how many events generated per job
-number_of_slices_per_run = 5000          # increment run number after this many slices
-initial_run_number = 31001             # starting value for generated run number
+number_of_slices_per_run = 50000          # increment run number after this many slices
+#initial_run_number = 31001             # starting value for generated run number
 #initial_run_number = 31002             # starting value for generated run number
+initial_run_number = 11553             # starting value for generated run number
+
 
 # define the source of random triggers, if you want these
 random_triggers_server = "nod29.phys.uconn.edu"
@@ -39,10 +42,10 @@ random_triggers_folder = "/Gluex/rawdata/random_triggers/RunPeriod-2017-01"
 random_triggers_multiplicity = "1.0"
 
 # job parameters
-gluex_sim_project = "sim-mcsmear07-1.0"
-script_to_execute = "sim.csh"
+gluex_sim_project = "sim-mcsmear07-1.1"
+#script_to_execute = "sim.csh"
 #script_to_execute = "sim.omega.csh"
-#script_to_execute = "sim.4pi.csh"
+script_to_execute = "sim.4pi.csh"
 script_source_url = "https://halldweb.jlab.org/download/gluex_simulations/%s/"%gluex_sim_project
 
 try:
@@ -104,7 +107,7 @@ def do_slice(arglist):
 
    # run the script that does the heavy work
    cmd = "./%s %s %d %d %d"%(script_to_execute, gluex_sim_project, run_number, slice_index, number_of_events_per_slice)
-   retcode = shellcode("source $GLUEX_TOP/.hdpm/env/recon-2017_01-ver01-batch01-mcsmear.sh", 
+   retcode = shellcode("source $GLUEX_TOP/.hdpm/env/recon-2017_01-ver01-batch01-mcsmear-ver1_1.sh", 
                        "export JANA_RESOURCE_DIR=" + resources,
                        "export RCDB_CONNECTION=mysql://rcdb@hallddb.jlab.org/rcdb",
                        cmd)

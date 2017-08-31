@@ -1,0 +1,71 @@
+#!/bin/tcsh
+#
+set script=$1
+set project=$2
+set run=$3
+set file=$4
+#
+set number_of_events=<number_of_events>
+#
+# set up files
+set gluex_sim_project="sim-mcsmear07-1.1"
+set script_source_url="https://halldweb.jlab.org/download/gluex_simulations/$gluex_sim_project"
+echo -=-get job files-=-
+wget -nd -r --no-parent $script_source_url
+chmod +x sim.csh
+chmod +x sim.omega.csh
+chmod +x sim.4pi.csh
+chmod +x gsr.pl
+chmod +x Gen4Pi.exe
+#
+echo -=-get latest CCDB file-=-
+#cp -v /cvmfs/oasis.opensciencegrid.org/gluex/resources/sqlite/ccdb.sqlite .
+wget -O ccdb.sqlite https://halldweb.jlab.org/dist/ccdb.sqlite
+#
+echo -=-get random trigger (background) events-=-
+set random_triggers_server="nod29.phys.uconn.edu"
+set random_triggers_folder="/Gluex/rawdata/random_triggers/RunPeriod-2017-01"
+#uberftp $random_triggers_server  \"ls $random_triggers_folder \" | awk '{if(NF>8){print $9}}' > randoms_directory
+set randoms_file="$run<run>_random.hddm"
+uberftp $random_triggers_server "get $random_triggers_folder/$randoms_file $randoms_file"
+mv $randoms_file random.hddm
+#
+echo -=-OSG (Singularity) environment-=-
+source $GLUEX_TOP/.hdpm/env/recon-2017_01-ver01-batch01-mcsmear-ver1_1.csh
+setenv JANA_RESOURCE_DIR cvmfs/oasis.opensciencegrid.org/gluex/resources
+setenv RCDB_CONNECTION mysql://rcdb@hallddb.jlab.org/rcdb
+# 
+echo -=run script=-
+$script $project $run $file $number_of_events
+echo -=copy files to destination=-
+#
+set smeared_dir=/volatile/halld/gluex_simulations/$project/smeared
+mkdir -p $smeared_dir
+cp -v hdgeant_smeared_${run}_${file}.hddm $smeared_dir/hdgeant_smeared_${run}_${file}.hddm
+#
+set rest_dir=/volatile/halld/gluex_simulations/$project/rest
+mkdir -p $rest_dir
+cp -v dana_rest_${run}_${file}.hddm $rest_dir/dana_rest_${run}_${file}.hddm
+#
+set hd_root_dir=/volatile/halld/gluex_simulations/$project/hd_root
+mkdir -p $hd_root_dir
+cp -v hd_root_${run}_${file}.root $hd_root_dir/hd_root_${run}_${file}.root
+#
+set bcal_tree_dir=/volatile/halld/gluex_simulations/$project/tree_bcal_hadronic_eff
+mkdir -p $bcal_tree_dir
+cp -v hd_root_${run}_${file}.root $bcal_tree_dir/tree_bcal_hadronic_eff_${run}_${file}.root
+#
+set fcal_tree_dir=/volatile/halld/gluex_simulations/$project/tree_fcal_hadronic_eff
+mkdir -p $fcal_tree_dir
+cp -v hd_root_${run}_${file}.root $fcal_tree_dir/tree_fcal_hadronic_eff_${run}_${file}.root
+#
+set sc_tree_dir=/volatile/halld/gluex_simulations/$project/tree_sc_eff
+mkdir -p $sc_tree_dir
+cp -v hd_root_${run}_${file}.root $sc_tree_dir/tree_sc_eff_${run}_${file}.root
+#
+set tof_tree_dir=/volatile/halld/gluex_simulations/$project/tree_tof_eff
+mkdir -p $tof_tree_dir
+cp -v hd_root_${run}_${file}.root $tof_tree_dir/tree_tof_eff_${run}_${file}.root
+#
+echo -=wrapper done=-
+exit

@@ -15,19 +15,22 @@ echo -=-environment-=-
 #source setup_jlab.csh
 #source $GLUEX_TOP/.hdpm/env/recon-2017_01-ver01-batch01-mcsmear.sh
 #setenv CCDB_CONNECTION sqlite:///`pwd`/ccdb.sqlite
-setenv CCDB_CONNECTION sqlite:////cvmfs/oasis.opensciencegrid.org/gluex/resources/sqlite/ccdb.sqlite
-setenv JANA_CALIB_URL $CCDB_CONNECTION
+#setenv CCDB_CONNECTION sqlite:////cvmfs/oasis.opensciencegrid.org/gluex/resources/sqlite/ccdb.sqlite
+#setenv JANA_CALIB_URL $CCDB_CONNECTION
 #setenv JANA_CALIB_URL mysql://ccdb_user@hallddb.jlab.org/ccdb
 #setenv JANA_CALIB_CONTEXT "variation=mc calibtime=2017-01-31"
-setenv JANA_CALIB_CONTEXT "variation=mc"
+#setenv JANA_CALIB_CONTEXT "variation=mc"
+setenv CCDB_CONNECTION sqlite:///`pwd`/ccdb.sqlite
+setenv JANA_CALIB_URL $CCDB_CONNECTION
+setenv JANA_CALIB_CONTEXT "variation=mc calibtime=2017-08-15-07-00-00"
 #
 echo HALLD_HOME = $HALLD_HOME
 printenv | sort
 #
 # set flags based on run number
 #
-#set collimator = `rcnd $run collimator_diameter | awk '{print $1}'`
-set collimator = "5.0mm"
+set collimator = `rcnd $run collimator_diameter | awk '{print $1}'`
+#set collimator = "5.0mm"
 echo collimator = $collimator
 if ($collimator == "") then
     echo "no value returned for collimator"
@@ -79,9 +82,13 @@ ls -lt
 #
 echo -=-rename output files for staging-=-
 #
-mv -v hdgeant_smeared.hddm hdgeant_smeared_${run}_${file}.hddm
-mv -v dana_rest.hddm dana_rest_${run}_${file}.hddm
-mv -v hd_root.root hd_root_${run}_${file}.root
+mv -v hdgeant_smeared.hddm hdgeant_smeared_${run}_${file}.4pi.hddm
+mv -v dana_rest.hddm dana_rest_${run}_${file}.4pi.hddm
+mv -v hd_root.root hd_root_${run}_${file}.4pi.root
+mv -v tree_bcal_hadronic_eff.root  tree_bcal_hadronic_eff_${run}_${file}.4pi.root  
+mv -v tree_fcal_hadronic_eff.root  tree_fcal_hadronic_eff_${run}_${file}.4pi.root  
+mv -v tree_sc_eff.root  tree_sc_eff_${run}_${file}.4pi.root  
+mv -v tree_tof_eff.root  tree_tof_eff_${run}_${file}.4pi.root
 #
 #cp -v tree_bcal_hadronic_eff.root $tree_bcal_hadronic_eff_dir/tree_bcal_hadronic_eff_${run}_${file}.root
 #cp -v tree_fcal_hadronic_eff.root $tree_fcal_hadronic_eff_dir/tree_fcal_hadronic_eff_${run}_${file}.root
