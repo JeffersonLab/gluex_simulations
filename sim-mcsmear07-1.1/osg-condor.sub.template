@@ -1,0 +1,32 @@
+# condor submit file for osg production, based on a custom singularity image for sim-recon
+# Richard Jones
+# June 8, 2017
+#
+# Modified for jproj:  Sean Dobbs, Aug. 28, 2017
+#
+universe = vanilla
+Requirements = (HAS_SINGULARITY == TRUE) && (HAS_CVMFS_oasis_opensciencegrid_org == True)
+
++SingularityImage = "/cvmfs/singularity.opensciencegrid.org/rjones30/gluex:latest"  # change!
++SingularityBindCVMFS = True
++SingularityAutoLoad = True
+
+transfer_input_files = sim.csh
+should_transfer_files = IF_NEEDED
+when_to_transfer_output = ON_EXIT
+transfer_output_files = hdgeant_smeared_<run>_<file>.bggen.hddm dana_rest_<run>_<file>.bggen.hddm hd_root_<run>_<file>.bggen.root tree_bcal_hadronic_eff_<run>_<file>.bggen.root  tree_fcal_hadronic_eff_<run>_<file>.bggen.root tree_sc_eff_<run>_<file>.bggen.root tree_tof_eff_<run>_<file>.bggen.root
+
+x509userproxy = /tmp/user_proxy
+concurrency_limits = GluexProduction
+on_exit_remove = true
+on_exit_hold = false
+
+# rewrite these
+initialdir = /osgpool/halld/sdobbs/gluex_simulations/sim-mcsmear07-1.1    # directory you are running the job out of
+output = <logdir>/$(CLUSTER).$(PROCESS).out
+error = <logdir>/$(CLUSTER).$(PROCESS).err
+log = <logdir>/$(CLUSTER).$(PROCESS).log
+
+executable = osg-container.sh
+arguments = ./osg-wrapper.csh ./sim.csh <project> <run> <file>
+queue
